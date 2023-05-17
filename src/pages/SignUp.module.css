@@ -1,0 +1,58 @@
+* {
+  margin: 0;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.signForm {
+  border: 2px solid #D8D9DE;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+}
+
+label {
+  font-size: 14px;
+  text-align: left;
+  padding: 0.25rem 0;
+}
+
+input {
+  margin: 7px 0;
+  padding: 0.6rem 1rem;
+  border-width: 1px;
+  border-radius: 4px;
+  border: 2px solid #D8D9DE;
+}
+
+input:focus {
+  outline: none;
+  border:1px solid #24a0ed;
+  box-shadow: 0 0 5px #719ECE;
+}
+
+button {
+  margin: 15px 0px;
+  background-color: #24a0ed;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 8px 12px 0 rgba(0,0,0,0.1);
+}
+
+button:hover {
+  background-color: #208bcd;
+}
+
+.signupSignIn {
+  font-size: 12px;
+}
