@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
@@ -14,6 +14,8 @@ function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
 
   function firstNameHandler(e) {
     setFirstName(e.target.value);
@@ -35,13 +37,7 @@ function SignUp() {
     setConfirmPassword(e.target.value);
   }
 
-  // useEffect(() => {
-  //   if (Object.keys(errors).length === 0) {
-  //     navigate("/");
-  //   }
-  // }, [errors, navigate]);
-
-  async function submitHandler(e) {
+  function submitHandler(e) {
     e.preventDefault();
     const values = {
       firstName,
@@ -50,7 +46,36 @@ function SignUp() {
       password,
       confirmPassword,
     };
-    setErrors(Validation(values));
+
+    const validationErrors = Validation(values);
+
+    const registerUrl = "http://localhost:8000/api/register/";
+
+    if (Object.keys(validationErrors).length === 0) {
+      const json = JSON.stringify({
+        "first_name": firstName,
+        "last_name": lastName,
+        "email": email,
+        "password": password,
+        "password2": confirmPassword,
+      });
+      
+      axios({
+        method: "post",
+        url: registerUrl,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: json,
+      }).then((response) => {
+        console.log(response.data);
+      });
+
+      navigate("/");
+    } else {
+      setErrors(validationErrors);
+    }
+
     // const json = JSON.stringify({
     //   "first_name": firstName,
     //   "last_name": lastName,
@@ -58,12 +83,16 @@ function SignUp() {
     //   "password": password,
     //   "password2": confirmPassword,
     // });
-    // const res = await axios.post('http://localhost:8000/api/register/', json, {
-    //   headers: {
-    //     'Content-Type': 'application/json'
+    // const response = await axios.post(
+    //   "http://localhost:8000/api/register/",
+    //   json,
+    //   {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
     //   }
-    // });
-    // console.log(res.data);
+    // );
+    // console.log(response.data);
   }
 
   const errorStyle = {

@@ -5,20 +5,42 @@
   align-items: center;
   justify-content: space-around;
   background-color: #24a0ed;
+  box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+  position: fixed;
+  top: 0;
+}
+
+.menuLink {
+  display: flex;
 }
 
 li {
   list-style: none;
+  margin-right: 50px;
 }
 
-.logo, .menuLink {
-  font-size: 1rem;
-  color: white;
-  font-weight: bold;
+.logo {
+  border-radius: 8px;
+  padding: 7px 0;
+  display: flex;
+  justify-content: center;
   cursor: pointer;
+}
+
+.logo:hover {
+  background-color: #87cbf6;
+}
+
+.carImg {
+  width: 50%;
+  object-fit: contain;
 }
 
 .menuLink a {
   text-decoration: none;
   color: white;
+}
+
+.menuLink a:hover {
+  text-decoration: underline;
 }

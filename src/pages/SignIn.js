@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import axios from "axios";
 
 import classes from "./SignUp.module.css";
 import Validation from "../Validation";
@@ -9,6 +11,8 @@ function SignIn() {
   const [password, setPassword] = useState("");
 
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
 
   function emailHandler(e) {
     setEmail(e.target.value);
@@ -24,7 +28,37 @@ function SignIn() {
       email,
       password,
     };
-    setErrors(Validation(values));
+    // setErrors(Validation(values));
+
+    const loginUrl = "http://localhost:8000/api/login/";
+
+    const validationErrors = Validation(values);
+
+    if (Object.keys(validationErrors).length < 2) {
+      const json = JSON.stringify({
+        "email": email,
+        "password": password,
+      });
+
+      axios({
+        method: "post",
+        url: loginUrl,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: json,
+      }).then((response) => {
+        console.log(response.data);
+        navigate("/home");
+      }).catch((error) => {
+        console.log(error.response.status);
+        if(error.response.status === 401) {
+          alert('Invalid')
+        }
+      });
+    } else {
+      setErrors(validationErrors);
+    }
   }
 
   const errorStyle = {
@@ -57,11 +91,7 @@ function SignIn() {
           onChange={passwordHandler}
         />
         {errors.password && <span style={errorStyle}>{errors.password}</span>}
-        <div style={{ textAlign: "center" }}>
-          <Link to="/add-vehicle">
-            <button type="submit">Sign in</button>
-          </Link>
-        </div>
+        <button type="submit">Sign in</button>
         <div className={classes.signupSignIn}>
           <p>
             Don't have an account?{" "}
